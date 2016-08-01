@@ -1,26 +1,7 @@
 #!/bin/bash
-DSTDIR=~/.TelegramDesktop/tdata/ticons
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-cd $DIR
+# 'Telegram Icon Updater' Setup Script
 
-if [ $1 == "--install" ]
-	then
-		if [ -d $DSTDIR ]
-			then
-				rm $DSTDIR/* 2> /dev/null
-			else
-				mkdir -p $DSTDIR
-		fi
-		cp ./icons/*.png $DSTDIR
-
-		for((i=2; i<500; i++))
-			do
-				ln -s $DSTDIR/ico_22_1.png $DSTDIR/ico_22_$i.png
-				ln -s $DSTDIR/icomute_22_1.png $DSTDIR/icomute_22_$i.png
-			done
-
-elif [ $1 == "--remove" ]
-	then
-		rm $DSTDIR/*.png
-fi
-exit
+TELEDIR=~/.TelegramDesktop/tdata/ticons
+[[ $1 == "--install" ]] && { [[ -d $TELEDIR ]] && { rm -rf $TELEDIR; }; mkdir -p $TELEDIR; cp -f ./icons/*.png $TELEDIR; for((i = 2; i < 999; i++)); do ln -s $TELEDIR/ico_22_1.png $TELEDIR/ico_22_$i.png; ln -s $TELEDIR/icomute_22_1.png $TELEDIR/icomute_22_$i.png; done; exit 0; }
+[[ $1 == "--remove" ]] && { rm -rf $TELEDIR; exit 0; }
+echo "[ERROR] Please use --install or --remove."; exit 1;
